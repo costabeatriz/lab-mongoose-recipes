@@ -17,7 +17,54 @@ mongoose
   })
   .then(() => {
     // Run your code here, after you have insured that the connection was made
+   const newRecipe = {
+    title: 'Potato Soup',
+    level: 'Easy Peasy',
+    ingredients : [
+      "Potato",
+      "Onions",
+      "water",
+    ],
+    cuisine: "Brazilian",
+    dishType: "soup",
+    duration: 60,
+    creator: "Henrique",
+  }
+    return Recipe.create(newRecipe)
   })
+  .then((recipe) => {
+    console.log(recipe)
+  })
+
+  Recipe.insertMany(data)
+    .then((responseFromDB)=>{
+      responseFromDB.forEach(elm =>{
+        console.log(elm.title);
+      })
+  })
+
+  .then(()=>{
+  const newRecipe = Recipe.findOneAndUpdate({title:'Rigatoni alla Genovese'}, {$set: {duration:100}}, {new:true})
+  return newRecipe
+  }).then((recipe) => {console.log(recipe)})
+
+  .then(()=>{
+    const deleteRecipe =Recipe.deleteOne({title: "Carrot Cake"})
+    return deleteRecipe
+  })
+.then((responseFromDB)=>{
+  return mongoose.disconnect()
+})
+.then((responseFromDB) => {
+  console.log("disconnected")
+})
+  
   .catch(error => {
-    console.error('Error connecting to the database', error);
-  });
+    console.error('error', error);
+  })
+
+
+
+
+
+
